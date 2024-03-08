@@ -17,6 +17,7 @@
     flex-direction: column; /* Aligns children vertically */
     align-items: center; /* Centers children horizontally */
     gap: 20px; /* Adds space between children */
+    width: 40vw;
   }
   
   .login-header {
@@ -26,13 +27,19 @@
   }
   
   .login-logo {
-    height: 50px;
+    height: 50px;;
   }
   
   .login-title {
     margin: 0;
     font-size: 24px;
     color: #333;
+  }
+  .signup-image{
+    width: 100%;
+    height: 100%;
+    margin-right: 7vw;
+    margin-left: 10vw;
   }
   
   /* Styles for Form, Input, Button, etc., remain unchanged */

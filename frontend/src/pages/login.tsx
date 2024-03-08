@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./login.css"; // Ensure you have an App.css file for custom styles
 import logoImage from "../assets/image.png"; // Adjust the path as necessary
-import photo from "../assets/poza.png"; // Adjust the path as necessary
+import photo from "../assets/InteliMed.AI.png"; // Adjust the path as necessary
 
 interface loginValues {
   username: string;

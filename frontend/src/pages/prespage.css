@@ -37,3 +37,9 @@
     line-height: normal;
     margin: 0; /* Remove any default margin */
 }
+.button-container {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    margin-top: 20px; /* Add some space between the text and the buttons */
+  }
+  

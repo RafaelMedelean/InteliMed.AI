@@ -1,9 +1,19 @@
 import React from "react";
 import Meniu from "../components/presmenu";
-import { Card } from "antd";
+import { Card, Button } from "antd";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./prespage.css";
 
 const App: React.FC = () => {
+  const navigate = useNavigate(); // Use the useNavigate hook
+
+  const handleLoginClick = () => {
+    navigate("/login"); // Navigate to /login
+  };
+
+  const handleSignUpClick = () => {
+    navigate("/signup"); // Navigate to /signup
+  };
   return (
     <div className="background-image">
       <Meniu />
@@ -12,7 +22,7 @@ const App: React.FC = () => {
           className="info-card"
           style={{ background: "rgba(255, 255, 255, 0.8)" }}
         >
-        <h1 className="name">InteliMed.AI</h1>
+          <h1 className="name">InteliMed.AI</h1>
           <p>
             A transformative platform designed to redefine medical education,
             with a special focus on Radiology. Leveraging the power of Computer
@@ -32,6 +42,19 @@ const App: React.FC = () => {
             platform is poised to become an indispensable tool in the education
             of the next generation of radiologists.
           </p>
+          <div className="button-container">
+            <Button
+              type="primary"
+              size="large"
+              onClick={handleLoginClick}
+              style={{ marginRight: "10px" }}
+            >
+              Login
+            </Button>
+            <Button type="primary" size="large" onClick={handleSignUpClick}>
+              Sign Up
+            </Button>
+          </div>
         </Card>
       </div>
     </div>
