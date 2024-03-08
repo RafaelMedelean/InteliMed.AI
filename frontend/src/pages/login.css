@@ -1,0 +1,39 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    margin-left: auto;
+    background: transparent; /* Removed the gray background */
+  }
+  
+  .login-container {
+    padding: 40px;
+    background: #fff; /* Keeping the login container background white */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    display: flex; /* Adding flex display */
+    flex-direction: column; /* Aligns children vertically */
+    align-items: center; /* Centers children horizontally */
+    gap: 20px; /* Adds space between children */
+  }
+  
+  .login-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .login-logo {
+    height: 50px;
+  }
+  
+  .login-title {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Styles for Form, Input, Button, etc., remain unchanged */
+  

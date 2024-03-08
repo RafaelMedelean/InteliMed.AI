@@ -1,1 +1,1 @@
-# ItFest2024_Timisoara
+# InteliMed

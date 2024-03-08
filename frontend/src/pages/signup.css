@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    justify-content: center; /* Centers the children horizontally */
+    align-items: center; /* Centers the children vertically */
+    min-height: 100vh; /* Ensures the container takes up at least the full height of the viewport */
+    padding: 20px;
+    gap: 20px; /* Adds some space between the image and the form */
+  }
+  
+  .signup-image {
+    max-width: 40%; /* Adjust based on your design needs */
+    height: auto; /* Maintain aspect ratio */
+    flex-shrink: 0; /* Prevents the image from shrinking if there's not enough space */
+  }
+  
+  .signup-container {
+    max-width: 600px;
+    width: 100%; /* Allows the form container to be flexible in width */
+    padding: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    flex-shrink: 0; /* Prevents the form container from shrinking if there's not enough space */
+  }
+  
+  .signup-form {
+    max-width: 100%; /* Ensures the form does not exceed the width of its container */
+    padding: 40px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: white;
+  }
+  
+  .signup-form .ant-form-item {
+    margin-bottom: 24px;
+  }
+  
+  .signup-form .ant-form-item-label > label {
+    color: #5c5c5c; /* Darker label color for contrast */
+  }
+  
+  .signup-form button {
+    width: 100%; /* Makes the button full width of the form */
+  }
+  
