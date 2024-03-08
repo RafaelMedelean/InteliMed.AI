@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout, Menu, Button, Dropdown, MenuProps } from "antd";
+// import "antd/dist/antd.css"; // Make sure you have imported Ant Design CSS
 
 const { Header } = Layout;
-
-interface Page {
-  title: string;
-  path: string;
-}
-
-const pages: Page[] = [{ title: "", path: "/" }];
 
 const aboutUsMenuItems: MenuProps["items"] = [
   { key: "our-team", label: <Link to="/our-team">Our Team</Link> },
@@ -20,19 +14,14 @@ const aboutUsMenuItems: MenuProps["items"] = [
 const AppMenu: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleOpenChange = (flag: boolean) => {
-    setOpen(flag);
+  const toggleOpen = () => {
+    setOpen(!open);
   };
-
-  const navMenuItems: MenuProps["items"] = pages.map((page) => ({
-    key: page.title,
-    label: <Link to={page.path}>{page.title}</Link>,
-  }));
 
   const aboutUsDropdownMenu = <Menu items={aboutUsMenuItems} />;
 
   return (
-    <Layout className="layout" style={{ padding: 0 }}>
+    <Layout className="layout">
       <Header
         style={{
           position: "fixed",
@@ -41,55 +30,22 @@ const AppMenu: React.FC = () => {
           display: "flex",
           alignItems: "center",
           backgroundColor: "white",
-          paddingLeft: 0,
-          paddingRight: 0,
-          padding: 0,
-          //   borderBottom: "1px solid #f0f0f0",
         }}
       >
         <div
-          style={{ display: "flex", alignItems: "center", marginLeft: "50px" }}
+          style={{ marginRight: "30px", fontWeight: "bold", fontSize: "20px" }}
         >
-          {/* Retain "InteliMed.AI" text */}
-          <div
-            style={{
-              color: "black",
-              fontWeight: "bold",
-              fontSize: "20px",
-              marginRight: "30px",
-            }}
-          >
-            InteliMed.AI
-          </div>
+          InteliMed.AI
         </div>
 
-        <Menu
-          theme="light"
-          mode="horizontal"
-          defaultSelectedKeys={["1"]}
-          items={navMenuItems}
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            border: 0,
-            padding: 0,
-            backgroundColor: "white",
-          }}
-        />
-
         <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            marginRight: "30px",
-          }}
+          style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
         >
-          {/* "About Us" Dropdown Button */}
           <Dropdown
-            menu={aboutUsDropdownMenu}
-            onOpenChange={handleOpenChange}
-            open={open}
+            overlay={aboutUsDropdownMenu}
+            onVisibleChange={toggleOpen}
+            visible={open}
+            trigger={["click"]}
           >
             <Button type="primary">About Us</Button>
           </Dropdown>
