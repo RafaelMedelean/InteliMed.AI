@@ -3,16 +3,29 @@ import { Layout, Card } from "antd";
 import AppMenu from "../components/menu";
 const { Header, Content, Footer } = Layout;
 import IconSlider from "../components/IconSlider"; // Ensure this is the correct path
-import "./threeimage.css"; // Importing external CSS
+import "./css/threeimage.css"; // Importing external CSS
+import { useAuth } from "../components/auth";
+import { useNavigate } from "react-router-dom";
 
 const App: React.FC = () => {
-
+  const { isAuthenticated, isLoading } = useAuth(); // Assume isLoading is part of your auth context
+  console.log("Three image page");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, isLoading, navigate]);
+  console.log(localStorage.getItem("token"));
   const [images, setImages] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
     fetchImages();
   }, []);
+  if (isLoading) {
+    return <div>Loading...</div>; // Show a loading state while authentication status is being resolved
+  }
 
   const fetchImages = async () => {
     try {

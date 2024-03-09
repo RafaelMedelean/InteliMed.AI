@@ -1,13 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  Layout,
-  Menu,
-  Switch,
-  Avatar,
-  MenuProps,
-  Popover,
-} from "antd";
+import { Layout, Menu, Switch, Avatar, MenuProps, Popover } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import Logo from "../assets/logo.jpg"; // Adjust the path as necessary
 
@@ -20,7 +13,7 @@ interface Page {
 
 const pages: Page[] = [
   { title: "Home", path: "/home" },
-  { title: "PresPage", path: "/" },
+  // { title: "PresPage", path: "/" },
   { title: "ThreeImage", path: "/threeimage" },
   { title: "TwoImage", path: "/twoimage" },
 ];
@@ -28,9 +21,6 @@ const pages: Page[] = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const AppMenu: React.FC = () => {
-
-
-
   const menuItems: MenuProps["items"] = settings.map((setting) => ({
     key: setting,
     label: setting,

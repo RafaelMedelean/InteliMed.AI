@@ -10,7 +10,7 @@ import {
   Typography,
 } from "antd";
 import React, { useState } from "react";
-import "./signup.css";
+import "./css/signup.css";
 import logoImage from "../assets/logo.jpg"; // Adjust the path as necessary
 
 const { Option } = Select;

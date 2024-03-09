@@ -2,7 +2,7 @@ import React from "react";
 import Meniu from "../components/presmenu";
 import { Card, Button } from "antd";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
-import "./prespage.css";
+import "./css/prespage.css";
 
 const App: React.FC = () => {
   const navigate = useNavigate(); // Use the useNavigate hook
