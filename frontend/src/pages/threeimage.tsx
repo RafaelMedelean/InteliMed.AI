@@ -130,7 +130,7 @@ const App: React.FC = () => {
               />
             </Card>
             <Card className="text-card">
-              <div className="button-container">
+              <div className="button-containers">
                 <p
                   style={{
                     fontSize: "20px",

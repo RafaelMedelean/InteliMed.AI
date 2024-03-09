@@ -72,18 +72,18 @@
   padding: 20px;
 }
 
-.button-container {
+.button-containers {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   flex-grow: 1; /* Make the container take up all available space */
 }
 
-.button-container button {
-  margin: 10px 0; /* Add some vertical margin to buttons */
+.button-containers button {
+  margin: 10px 0; 
 }
 
-.button-container div {
+.button-containers div {
   display: flex;
   justify-content: space-evenly;
 }
@@ -92,3 +92,7 @@
   text-align: center;
   margin: 20px 0;
 }
+.button-containers div button:first-child {
+  margin-right: 0px; /* Adds 20px space between the True and False buttons */
+}
+
