@@ -9,14 +9,14 @@ import { useNavigate } from "react-router-dom";
 
 const App: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth(); // Assume isLoading is part of your auth context
-  console.log("Three image page");
+  // console.log("Three image page");
   const navigate = useNavigate();
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
     }
   }, [isAuthenticated, isLoading, navigate]);
-  console.log(localStorage.getItem("token"));
+  // console.log(localStorage.getItem("token"));
   const [images, setImages] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -75,7 +75,7 @@ const App: React.FC = () => {
           },
           body: JSON.stringify({ selectedValue }),
         });
-
+        // console.log("response", response);
         if (!response.ok) {
           throw new Error("Failed to send data to the backend.");
         }
@@ -97,6 +97,7 @@ const App: React.FC = () => {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
+      // console.log("Submission result:", result);
       setSubmissionResult(result.message);
     } catch (error) {
       console.error("Error fetching submission result:", error);
