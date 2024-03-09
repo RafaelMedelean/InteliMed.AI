@@ -7,7 +7,8 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import jwt from 'jsonwebtoken'; // For generating JWT tokens
-
+import axios from 'axios'; // For making HTTP requests
+//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   OpenAi API key
 dotenv.config();
 
 const app = express();
@@ -117,29 +118,60 @@ app.get('/threeimg', (req, res) => {
     });
 });
 
-let latestResult = {};
+let latestResult = {}; // Variable to store the latest result
+
+
+
 
 // POST endpoint to receive the selected value and determine the result
-app.post('/nodulevar', (req, res) => {
-  const { selectedValue } = req.body;
-  console.log(`Received selection: ${selectedValue}`);
+app.post('/nodulevar', async (req, res) => {
+    const { selectedValue } = req.body;
+    // console.log(`Received selection: ${selectedValue}`);
 
-  // Implement your logic here to determine the result based on the selectedValue
-  // For demonstration, we'll just echo back the selected value
-  latestResult = {
-    success: selectedValue, // This should be replaced with your actual logic
-    message: selectedValue ? "Congratulations!" : "Wrong, consult documentation",
-  };
+    if (selectedValue === true) {
+        // If client sends true, respond with a positive message
+        latestResult = {
+            success: true,
+            message: "Congrats, your input is valuable!"
+        };
+    } else {
+        // Placeholder for when client sends false
+        // Implement your logic here, for example, calling an external API
+        // This is a simplified example to simulate a dynamic response
+        const simulatedResponse = "AI, or Artificial Intelligence, is the simulation of human intelligence in machines that are programmed to think and learn like humans.";
 
-  res.status(200).json({ message: "Selection received" });
+        latestResult = {
+            success: false,
+            message: simulatedResponse // Replace this with the actual API response
+        };
+
+        // Below is a commented-out template for making an API call with axios
+        /*
+        try {
+            const response = await axios.post('https://api.your-external-service.com', data, { headers: headers });
+            latestResult = {
+                success: false,
+                message: response.data.someRelevantField // Adjust according to the actual response structure
+            };
+        } catch (error) {
+            console.error('Error calling the external service:', error);
+            return res.status(500).send({ error: 'Error processing the request with the external service' });
+        }
+        */
+    }
+
+    res.status(200).json(latestResult);
 });
 
 // GET endpoint to return the latest result
 app.get('/submissionResult', (req, res) => {
-  // Return the latestResult
-  res.status(200).json(latestResult);
+    // Check if there's an answer stored
+    if (latestResult.answer || latestResult.message) {
+        res.status(200).json(latestResult);
+    } else {
+        res.status(404).send({ error: 'No result found. Please use /ask or /nodulevar to generate a new result.' });
+    }
 });
-
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
