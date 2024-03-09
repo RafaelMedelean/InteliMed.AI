@@ -9,6 +9,8 @@
   align-items: center;
   padding: 20px;
   height: calc(100vh - 64px); /* Adjusting for header height */
+  /* background-color: #f0f0f0;*/
+  min-width: 99vw;
 }
 
 .content-wrapper {
@@ -59,4 +61,34 @@
 .footer {
   text-align: center;
   padding: 20px 0; /* Add padding to footer for spacing */
+
+}
+
+.text-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch; /* Stretch children to fill the card width */
+  padding: 20px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-grow: 1; /* Make the container take up all available space */
+}
+
+.button-container button {
+  margin: 10px 0; /* Add some vertical margin to buttons */
+}
+
+.button-container div {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.message {
+  text-align: center;
+  margin: 20px 0;
 }

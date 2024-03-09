@@ -100,6 +100,8 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
+
 app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 app.get('/threeimg', (req, res) => {
@@ -114,8 +116,29 @@ app.get('/threeimg', (req, res) => {
         res.json(imageUrls);
     });
 });
-// In your login logic on the client side
 
+let latestResult = {};
+
+// POST endpoint to receive the selected value and determine the result
+app.post('/nodulevar', (req, res) => {
+  const { selectedValue } = req.body;
+  console.log(`Received selection: ${selectedValue}`);
+
+  // Implement your logic here to determine the result based on the selectedValue
+  // For demonstration, we'll just echo back the selected value
+  latestResult = {
+    success: selectedValue, // This should be replaced with your actual logic
+    message: selectedValue ? "Congratulations!" : "Wrong, consult documentation",
+  };
+
+  res.status(200).json({ message: "Selection received" });
+});
+
+// GET endpoint to return the latest result
+app.get('/submissionResult', (req, res) => {
+  // Return the latestResult
+  res.status(200).json(latestResult);
+});
 
 
 app.listen(PORT, () => {

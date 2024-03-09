@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Card } from "antd";
+import { Layout, Card, Button } from "antd";
 import AppMenu from "../components/menu";
 const { Header, Content, Footer } = Layout;
 import IconSlider from "../components/IconSlider"; // Ensure this is the correct path
@@ -23,9 +23,26 @@ const App: React.FC = () => {
   useEffect(() => {
     fetchImages();
   }, []);
-  if (isLoading) {
-    return <div>Loading...</div>; // Show a loading state while authentication status is being resolved
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>; // Show a loading state while authentication status is being resolved
+  // }
+  const [selectedValue, setSelectedValue] = useState<boolean | null>(null);
+  const [submissionResult, setSubmissionResult] = useState<string | null>(null); // New state for storing the submission result
+  const handleTrueClick = () => {
+    setSelectedValue(true);
+    setSubmissionResult(null); // Reset the submission result message
+  };
+
+  const handleFalseClick = () => {
+    setSelectedValue(false);
+    setSubmissionResult(null); // Reset the submission result message
+  };
+
+  // Style for the selected button
+  const selectedStyle = {
+    backgroundColor: "green", // Change this color as needed
+    color: "white",
+  };
 
   const fetchImages = async () => {
     try {
@@ -46,6 +63,44 @@ const App: React.FC = () => {
 
   const handleSliderChange = (value: number) => {
     setCurrentIndex(value);
+  };
+
+  const sendData = async () => {
+    if (selectedValue !== null) {
+      try {
+        const response = await fetch("http://localhost:8000/nodulevar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ selectedValue }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to send data to the backend.");
+        }
+
+        console.log("Data sent successfully.");
+        fetchSubmissionResult(); // Call fetchSubmissionResult after successfully sending data
+      } catch (error) {
+        console.error("Error sending data:", error);
+      }
+    } else {
+      console.log("No value selected.");
+    }
+  };
+
+  const fetchSubmissionResult = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/submissionResult");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const result = await response.json();
+      setSubmissionResult(result.message);
+    } catch (error) {
+      console.error("Error fetching submission result:", error);
+    }
   };
 
   return (
@@ -75,11 +130,54 @@ const App: React.FC = () => {
               />
             </Card>
             <Card className="text-card">
-              <p>
-                Here is some text that can be replaced with whatever content you
-                need. This section is for displaying text content opposite the
-                image. Adjust the content as needed to fit your requirements.
-              </p>
+              <div className="button-container">
+                <p
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    textAlign: "center",
+                  }}
+                >
+                  Is this a nodule?
+                </p>
+
+                <div>
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={handleTrueClick}
+                    style={selectedValue === true ? selectedStyle : {}}
+                  >
+                    True
+                  </Button>
+                  <Button
+                    type="primary"
+                    size="large"
+                    onClick={handleFalseClick}
+                    style={selectedValue === false ? selectedStyle : {}}
+                  >
+                    False
+                  </Button>
+                </div>
+
+                {submissionResult && (
+                  <div
+                    className="message"
+                    style={{ color: selectedValue ? "green" : "red" }}
+                  >
+                    {submissionResult}
+                  </div>
+                )}
+
+                <Button
+                  type="primary"
+                  size="large"
+                  onClick={sendData}
+                  disabled={selectedValue === null}
+                >
+                  Submit
+                </Button>
+              </div>
             </Card>
           </div>
         </Content>
