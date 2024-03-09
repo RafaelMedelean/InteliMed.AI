@@ -10,7 +10,6 @@ import SignUp from "./pages/signup";
 import ThreeImage from "./pages/threeimage";
 import TwoImage from "./pages/twoimages";
 
-
 const App: React.FC = () => (
   <ConfigProvider
     theme={{
@@ -19,10 +18,11 @@ const App: React.FC = () => (
         colorPrimary: "blue",
         colorBgBase: "",
         borderRadius: 2,
+        colorFillSecondary: "lightblue",
 
         // Alias Token
-        colorBgContainer: "",
-        colorFillSecondary: "red",
+        // colorBgContainer: "white",
+        // colorBgLayout: "pink",
       },
     }}
   >
