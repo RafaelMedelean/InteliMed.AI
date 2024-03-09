@@ -75,7 +75,7 @@ const App: React.FC = () => {
           },
           body: JSON.stringify({ selectedValue }),
         });
-
+        // console.log("response", response);
         if (!response.ok) {
           throw new Error("Failed to send data to the backend.");
         }
@@ -97,6 +97,7 @@ const App: React.FC = () => {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
+      // console.log("Submission result:", result);
       setSubmissionResult(result.message);
     } catch (error) {
       console.error("Error fetching submission result:", error);
