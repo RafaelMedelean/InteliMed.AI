@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../components/auth";
 import "./login.css"; // Ensure you have an App.css file for custom styles
 import logoImage from "../assets/image.png"; // Adjust the path as necessary
 import photo from "../assets/InteliMed.AI.png"; // Adjust the path as necessary
@@ -15,7 +16,7 @@ interface loginValues {
 const App: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-
+  const auth= useAuth();
   const onFinish = async (values: loginValues) => {
     try {
       console.log("Received values of form: ", values);
@@ -27,18 +28,27 @@ const App: React.FC = () => {
         body: JSON.stringify(values),
       });
 
+      const data = await response.json(); // Parse the JSON response body
+
       if (response.ok) {
-        navigate("/home");
+        auth.login(data.token);
+        // localStorage.setItem("token", data.token); // Store the token in localStorage
+        //console.log("Login successful");
+
+        navigate("/home"); 
+        console.log("Navigated to home page");
       } else {
-        setIsModalVisible(true);
+        console.error("Login failed:", data.error); // Log the error from the response
+        setIsModalVisible(true); // Show modal or error message to the user
       }
     } catch (error) {
-      setIsModalVisible(true);
+      console.error("Error during login:", error); // Log any network or unexpected errors
+      setIsModalVisible(true); // Show modal or error message to the user
     }
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    setIsModalVisible(false); // Hide the modal on confirmation
   };
 
   return (

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Card } from "antd";
 import AppMenu from "../components/menu";
+const { Header, Content, Footer } = Layout;
 import IconSlider from "../components/IconSlider"; // Ensure this is the correct path
 import "./threeimage.css"; // Importing external CSS
 
-const { Header, Content, Footer } = Layout;
-
 const App: React.FC = () => {
+
   const [images, setImages] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -47,7 +47,11 @@ const App: React.FC = () => {
             <Card className="image-card">
               <div className="image-container">
                 {images.length > 0 && (
-                  <img src={images[currentIndex]} alt="Display" />
+                  <img
+                    src={images[currentIndex]}
+                    alt="Display"
+                    className="image"
+                  />
                 )}
               </div>
               <IconSlider

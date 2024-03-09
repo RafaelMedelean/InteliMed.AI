@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Button, Dropdown, MenuProps } from "antd";
+import { Layout, Button, Dropdown, MenuProps } from "antd";
 // import "antd/dist/antd.css"; // Uncomment if Ant Design CSS is not globally imported
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 const aboutUsMenuItems: MenuProps["items"] = [

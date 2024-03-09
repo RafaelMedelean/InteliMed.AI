@@ -9,38 +9,41 @@ import PresPage from "./pages/prespage";
 import SignUp from "./pages/signup";
 import ThreeImage from "./pages/threeimage";
 import TwoImage from "./pages/twoimages";
+import { AuthProvider } from "./components/auth";
 
 const App: React.FC = () => (
-  <ConfigProvider
-    theme={{
-      token: {
-        // Seed Token
-        colorPrimary: "blue",
-        colorBgBase: "",
-        borderRadius: 2,
-        colorFillSecondary: "lightblue",
+  <AuthProvider>
+    <ConfigProvider
+      theme={{
+        token: {
+          // Seed Token
+          colorPrimary: "blue",
+          colorBgBase: "",
+          borderRadius: 2,
+          colorFillSecondary: "lightblue",
 
-        // Alias Token
-        // colorBgContainer: "white",
-        // colorBgLayout: "pink",
-      },
-    }}
-  >
-    <Space>
-      <Router>
-        <div>
-          <Routes>
-            <Route path="/" element={<PresPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/twoimage" element={<TwoImage />} />
-            <Route path="/threeimage" element={<ThreeImage />} />
-          </Routes>
-        </div>
-      </Router>
-    </Space>
-  </ConfigProvider>
+          // Alias Token
+          // colorBgContainer: "white",
+          // colorBgLayout: "pink",
+        },
+      }}
+    >
+      <Space>
+        <Router>
+          <div>
+            <Routes>
+              <Route path="/" element={<PresPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/twoimage" element={<TwoImage />} />
+              <Route path="/threeimage" element={<ThreeImage />} />
+            </Routes>
+          </div>
+        </Router>
+      </Space>
+    </ConfigProvider>
+  </AuthProvider>
 );
 
 export default App;

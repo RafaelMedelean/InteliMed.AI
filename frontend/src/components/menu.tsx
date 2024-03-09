@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Layout, Menu, Switch, Avatar, Dropdown, MenuProps } from "antd";
+import {
+  Layout,
+  Menu,
+  Switch,
+  Avatar,
+  MenuProps,
+  Popover,
+} from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import Logo from "../assets/logo.jpg"; // Adjust the path as necessary
 
@@ -21,11 +28,8 @@ const pages: Page[] = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const AppMenu: React.FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
 
-  const handleOpenChange = (flag: boolean) => {
-    setOpen(flag);
-  };
+
 
   const menuItems: MenuProps["items"] = settings.map((setting) => ({
     key: setting,
@@ -82,12 +86,20 @@ const AppMenu: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <Dropdown menu={userMenu} onOpenChange={handleOpenChange} open={open}>
+          {/* <Dropdown menu={{items:[userMenu]}} onOpenChange={handleOpenChange} open={open}> */}
+          <Popover
+            content={userMenu}
+            title="Title"
+            trigger="click"
+            // open={open}
+            // onOpenChange={handleOpenChange}
+          >
             <Avatar
               style={{ backgroundColor: "transparent" }}
               icon={<UserOutlined />}
             />
-          </Dropdown>
+          </Popover>
+          {/* </Dropdown> */}
           <Switch
             style={{
               marginLeft: "10px",

@@ -114,6 +114,9 @@ app.get('/threeimg', (req, res) => {
         res.json(imageUrls);
     });
 });
+// In your login logic on the client side
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
