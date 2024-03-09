@@ -8,14 +8,35 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import jwt from 'jsonwebtoken'; // For generating JWT tokens
 import axios from 'axios'; // For making HTTP requests
+import { MongoClient, ServerApiVersion } from "mongodb";
 //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   OpenAi API key
 dotenv.config();
+const MONGOURL = process.env.MONGO_URL;
+const client = new MongoClient(MONGOURL, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+  });
+  async function run() {
+    try {
+      // Connect the client to the server	(optional starting in v4.7)
+      await client.connect();
+      // Send a ping to confirm a successful connection
+      await client.db("admin").command({ ping: 1 });
+      console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    } finally {
+      // Ensures that the client will close when you finish/error
+      await client.close();
+    }
+  }
+
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PORT = process.env.PORT || 8000;
-const MONGOURL = process.env.MONGO_URL;
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret'; // Ensure this is a secure secret in your .env file
 
 app.use(express.json());
@@ -173,6 +194,7 @@ app.get('/submissionResult', (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
+    await run()
     console.log(`Server is running on port ${PORT}`);
 });
