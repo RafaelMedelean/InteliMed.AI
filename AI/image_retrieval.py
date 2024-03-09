@@ -6,6 +6,7 @@ from tqdm import tqdm
 from scipy.spatial.distance import euclidean
 from models import generate_densenet_feature_extraction
 from data_loaders_features import data_loader
+import random
 
 class FeatureExtractor:
     def __init__(self, model_depth, pretrained_weights_path, device):
@@ -50,25 +51,7 @@ class FeatureExtractor:
             'resample_x', 'resample_y', 'resample_z', 'image_path', 'feature_vector'
         ])
         df.to_csv(output_csv_path, index=False)
-    '''
-    def find_closest_images(self, feature_vector, feature_csv_path, output_csv_path, top_k=2):
-        # Load the feature vectors CSV
-        df = pd.read_csv(feature_csv_path)
-        
-        # Convert feature vectors from string back to numpy arrays
-        df['feature_vector'] = df['feature_vector'].apply(lambda x: np.array([float(num) for num in x.strip('[]').split(',')]))
-        
-        # Calculate distances
-        distances = df['feature_vector'].apply(lambda x: euclidean(x, feature_vector))
-        df['distance'] = distances
-        
-        # Sort by distance
-        closest_images = df.sort_values('distance').head(top_k)
-        
-        # Save to new CSV
-        closest_images.to_csv(output_csv_path, index=False)
-        return closest_images
-    '''
+
     def find_closest_images(self, feature_vector, feature_csv_path, output_csv_path, top_k=2):
         # Load the feature vectors CSV
         df = pd.read_csv(feature_csv_path)
@@ -111,8 +94,9 @@ class FeatureExtractor:
         feature_vector = self.extract_features(patch_tensor)
 
         # Find and save closest images
-        _,closest_images = self.find_closest_images(feature_vector, feature_csv_path, output_csv_path)
-        return closest_images
+        closest_image_numpys, closest_images_jpegs = self.find_closest_images(feature_vector, feature_csv_path, output_csv_path)
+        print(closest_image_numpys[0],closest_images_jpegs[0])
+        return (closest_image_numpys[0],closest_images_jpegs[0])
 
 # Usage example
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -122,18 +106,26 @@ feature_extractor = FeatureExtractor(
     device=device
 )
 
-folder_path = '/sdb/LUNA16/64x45x45_all_patches_test_csv_completed/'
-image_path = '1.3.6.1.4.1.14519.5.2.1.6279.6001.100225287222365663678666836860_175.65999999999997_162.55773_212.29773.npy'
-full_image_path = folder_path + image_path
+def return_new_path(numpy_name, path_to_folder = "/sdb/ImageRetrievalVest/balanced_candidates", feature_vector_csv="/sdb/ImageRetrievalVest/saving_features/saving_features_balanced_candidates.csv"):
+    full_image_path1 = path_to_folder + numpy_name
+    output_csv_path='/sdb/ImageRetrievalVest/top_k results csv/results_32x100x100_csv.csv'
+    listx = feature_extractor.process_single_image(full_image_path1, feature_vector_csv, output_csv_path)
+    return listx
 
-folder_path1 = '/sdb/LUNA16/64x45x45_all_patches_smaller_but_bigger_csv/'
-image_path1 = '1.3.6.1.4.1.14519.5.2.1.6279.6001.108197895896446896160048741492_82.83000000000001_258.191806_81.79034.npy'
-full_image_path1 = folder_path1 + image_path1
-
-feature_vector_csv = '/sdb/ImageRetrievalVest/saving_features/saving_features_32x100x100.csv'
-output_csv_path = '/sdb/ImageRetrievalVest/top_k results csv/results_32x100x100_csv.csv'
-
+def select_random_path(path_to_jpegs_folder="/sdb/LUNA16/balanced_candidates_augmented_jpegs"):
+    paths = [
+        ('/sdb/ImageRetrievalVest/test_files/1.3.6.1.4.1.14519.5.2.1.6279.6001.100621383016233746780170740405_227.04500000000002_142.18987854_215.75640800000002.npy',f'{path_to_jpegs_folder}/1.3.6.1.4.1.14519.5.2.1.6279.6001.100621383016233746780170740405_227.04500000000002_142.18987854_215.75640800000002'),
+        ('/sdb/ImageRetrievalVest/test_files/1.3.6.1.4.1.14519.5.2.1.6279.6001.102681962408431413578140925249_162.0_241.40000000000003_130.8.npy',f'{path_to_jpegs_folder}/1.3.6.1.4.1.14519.5.2.1.6279.6001.102681962408431413578140925249_162.0_241.40000000000003_130.8'),
+        ('/sdb/ImageRetrievalVest/test_files/1.3.6.1.4.1.14519.5.2.1.6279.6001.107109359065300889765026303943_73.81_110.41499999999999_94.695.npy',f'{path_to_jpegs_folder}/1.3.6.1.4.1.14519.5.2.1.6279.6001.107109359065300889765026303943_73.81_110.41499999999999_94.695'),
+        ('/sdb/ImageRetrievalVest/test_files/1.3.6.1.4.1.14519.5.2.1.6279.6001.107351566259572521472765997306_117.1790709_192.53339522499996_42.532793025000004.npy',f'{path_to_jpegs_folder}/1.3.6.1.4.1.14519.5.2.1.6279.6001.107351566259572521472765997306_117.1790709_192.53339522499996_42.532793025000004')
+    ]
+    # Generate a random index based on the length of the paths list
+    index = random.randint(0, len(paths) - 1)
+    # Return the path at the randomly selected index
+    print(paths[index])
+    return paths[index]
+    
+#return_new_path("1.3.6.1.4.1.14519.5.2.1.6279.6001.100621383016233746780170740405_227.04500000000002_142.18987854_215.75640800000002.npy","/sdb/ImageRetrievalVest/test_files/")
+select_random_path()
 # Assuming data_loader is defined elsewhere and properly loaded
-#feature_extractor.save_features_to_csv(data_loader, '/sdb/ImageRetrievalVest/saving_features/saving_features_32x100x100.csv')
-listx = feature_extractor.process_single_image(full_image_path1, feature_vector_csv, output_csv_path)
-print(listx)
+#feature_extractor.save_features_to_csv(data_loader, '/sdb/ImageRetrievalVest/saving_features/saving_features_balanced_candidates.csv')

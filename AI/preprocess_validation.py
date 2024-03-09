@@ -65,11 +65,32 @@ def preprocess_and_save_npy_data(input_folder, output_folder, augmentations_func
             # Save the numpy array without the batch dimension
             np.save(preprocess_full_path, image.squeeze(0).numpy())
 
+from tqdm import tqdm  # Import tqdm for the progress bar
+
+def preprocess_and_save_validation_data(val_csv, path_images, preprocess_path):
+    data = pd.read_csv(val_csv)
+    # Wrap data.iterrows() with tqdm for a progress bar
+    for idx, row in tqdm(data.iterrows(), total=data.shape[0], desc="Processing images"):
+        image_path = row['seriesuid']
+        full_path = os.path.join(path_images, image_path)
+        if not os.path.exists(full_path):
+            print(f"File not found: {full_path}")
+            continue
+
+        image = np.load(full_path)
+        # Ensure image is a 4D tensor: (1, depth, height, width)
+        image = torch.tensor(image, dtype=torch.float32).unsqueeze(0)
+        image = get_augumentations_dinamic_densenet()(image)
+
+        preprocess_full_path = os.path.join(preprocess_path, image_path)
+        # Save the numpy array without the batch dimension
+        np.save(preprocess_full_path, image.squeeze(0).numpy())
+
 # Define the directory for preprocessed validation images in your config
-path_to_save_preprocessed_files = '/sdb/LUNA16/32x100x100_augumented'
-os.makedirs(path_to_save_preprocessed_files, exist_ok=True)
+path_to_save_preprocessed_files = '/sdb/LUNA16/balanced_candidates_augumented'
+#os.makedirs(path_to_save_preprocessed_files, exist_ok=True)
 
 # Example usage
-input_folder = '/sdb/LUNA16/32x100x100'  # Change this to your input directory
-
+input_folder = '/sdb/LUNA16/balanced_candidates'  # Change this to your input directory
+#preprocess_and_save_validation_data(csv_missing, input_folder, path_to_save_preprocessed_files)
 preprocess_and_save_npy_data(input_folder, path_to_save_preprocessed_files, get_augumentations_dinamic_densenet)
