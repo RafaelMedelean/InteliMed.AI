@@ -7,7 +7,7 @@ const Home: React.FC = () => {
   // console.log("Home page");
   const { isAuthenticated, isLoading } = useAuth(); // Assume isLoading is part of your auth context
   const navigate = useNavigate();
-  // console.log(localStorage.getItem("token"));
+   console.log(localStorage.getItem("token"));
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");

@@ -20,7 +20,7 @@ const App: React.FC = () => {
   const onFinish = async (values: loginValues) => {
     try {
       console.log("Received values of form: ", values);
-      const response = await fetch("http://localhost:8000/login", {
+      const response = await fetch("http://localhost:8001/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,10 +32,10 @@ const App: React.FC = () => {
 
       if (response.ok) {
         auth.login(data.token);
-        // localStorage.setItem("token", data.token); // Store the token in localStorage
+        localStorage.setItem("token", data.token); // Store the token in localStorage
         //console.log("Login successful");
 
-        navigate("/home"); 
+        navigate("/threeimage"); 
         console.log("Navigated to home page");
       } else {
         console.error("Login failed:", data.error); // Log the error from the response
