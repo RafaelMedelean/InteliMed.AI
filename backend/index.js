@@ -36,7 +36,7 @@ const client = new MongoClient(MONGOURL, {
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001 ;
 const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret'; // Ensure this is a secure secret in your .env file
 
 app.use(express.json());
@@ -122,22 +122,35 @@ app.post('/login', async (req, res) => {
     }
 });
 
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
+app.post('/upload', (req, res) => {
+    const { image } = req.body;
+    console.log(image);
+    
+    // console.log(image);
 
-app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
-
-app.get('/threeimg', (req, res) => {
-    const imagesDirectory = path.join(__dirname, 'public', 'images');
-
-    fs.readdir(imagesDirectory, (err, files) => {
         if (err) {
-            return res.status(500).json({ error: 'Failed to list images' });
+            console.error('Error saving image:', err);
+            return res.status(500).json({ error: 'Failed to save image' });
         }
+        res.json({ filename });
 
-        const imageUrls = files.map(file => `http://localhost:${PORT}/images/${file}`);
-        res.json(imageUrls);
-    });
 });
+
+
+// app.get('/threeimg', (req, res) => {
+//     const imagesDirectory = path.join(__dirname, 'public', 'images');
+//     console.log(imagesDirectory);
+//     fs.readdir(imagesDirectory, (err, files) => {
+//         if (err) {
+//             return res.status(500).json({ error: 'Failed to list images' });
+//         }
+
+//         const imageUrls = files.map(file => `http://localhost:${PORT}/images/${file}`);
+//         res.json(imageUrls);
+//     });
+// });
 
 let latestResult = {}; // Variable to store the latest result
 
@@ -147,7 +160,7 @@ let latestResult = {}; // Variable to store the latest result
 // POST endpoint to receive the selected value and determine the result
 app.post('/nodulevar', async (req, res) => {
     const { selectedValue } = req.body;
-    // console.log(`Received selection: ${selectedValue}`);
+     console.log(`Received ANA ARE MERE selection: ${selectedValue}`);
 
     if (selectedValue === true) {
         // If client sends true, respond with a positive message
@@ -156,29 +169,35 @@ app.post('/nodulevar', async (req, res) => {
             message: "Congrats, your input is valuable!"
         };
     } else {
-        // Placeholder for when client sends false
-        // Implement your logic here, for example, calling an external API
-        // This is a simplified example to simulate a dynamic response
-        const simulatedResponse = "AI, or Artificial Intelligence, is the simulation of human intelligence in machines that are programmed to think and learn like humans.";
+       
+        const messages = [
+            "Understand what lung nodules are: small growths on the lungs, often detected through X-rays or CT scans.",
+            "Know that not all lung nodules are cancerous; many are benign and don't require treatment.",
+            "Learn about the causes of lung nodules, including infections, inflammation, and previous illnesses.",
+            "Familiarize yourself with the symptoms of lung nodules, though many are asymptomatic and found incidentally.",
+            "Research how lung nodules are diagnosed through imaging tests and, in some cases, biopsy procedures.",
+            "Explore the different treatment options for lung nodules, depending on their cause and risk factors.",
+            "Understand the importance of regular follow-up imaging to monitor changes in the size or appearance of lung nodules.",
+            "Educate yourself on the risk factors for malignant lung nodules, including smoking and family history.",
+            "Read about recent studies and advancements in the detection and treatment of lung nodules.",
+            "Consult with healthcare professionals or thoracic specialists for personalized advice and information."
+        ];
+        const randomIndex = Math.floor(Math.random() * messages.length); // Adjusted to ensure it covers all indices from 0 to 9
 
+        // Pick a random message from the messages array
+        const randomMessage = messages[randomIndex];
+        
+        // Example of printing all messages
+        messages.forEach((message, index) => {
+            console.log(`${index + 1}: ${message}`);
+        });
+        
         latestResult = {
             success: false,
-            message: simulatedResponse // Replace this with the actual API response
+            message: randomMessage // Replace this with the actual API response
         };
 
-        // Below is a commented-out template for making an API call with axios
-        /*
-        try {
-            const response = await axios.post('https://api.your-external-service.com', data, { headers: headers });
-            latestResult = {
-                success: false,
-                message: response.data.someRelevantField // Adjust according to the actual response structure
-            };
-        } catch (error) {
-            console.error('Error calling the external service:', error);
-            return res.status(500).send({ error: 'Error processing the request with the external service' });
-        }
-        */
+
     }
 
     res.status(200).json(latestResult);
@@ -193,6 +212,22 @@ app.get('/submissionResult', (req, res) => {
         res.status(404).send({ error: 'No result found. Please use /ask or /nodulevar to generate a new result.' });
     }
 });
+
+
+
+app.get('/external-api-data', async (req, res) => {
+    try {
+        // Replace 'https://api.external.com/data' with the actual API URL you want to fetch data from
+        const response = await axios.get('https://api.external.com/data');
+        
+        // Send the data received from the external API back to the client
+        res.json(response.data);
+    } catch (error) {
+        // Handle any errors that occur during the API request
+        console.error('Error fetching data from external API:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}); 
 
 app.listen(PORT, async () => {
     await run()
