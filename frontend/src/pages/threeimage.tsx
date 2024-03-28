@@ -38,14 +38,14 @@ const getData = async (param: string | null) => {
 
 
 const App: React.FC = () => {
-  const { isAuthenticated, isLoading } = useAuth(); // Assume isLoading is part of your auth context
-  // console.log("Three image page");
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, isLoading, navigate]);
+  // const { isAuthenticated, isLoading } = useAuth(); // Assume isLoading is part of your auth context
+  // // console.log("Three image page");
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     navigate("/login");
+  //   }
+  // }, [isAuthenticated, isLoading, navigate]);
 
   // console.log(localStorage.getItem("token"));
   const [images, setImages] = useState<string[]>([]);

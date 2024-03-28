@@ -1,7 +1,8 @@
 // src/controllers/userController.js
 import User from '../models/user.js'
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 // This is your controller function for handling sign-ups.
 export const signupUser = async (req, res) => {
     try {
@@ -43,30 +44,11 @@ export const signupUser = async (req, res) => {
     }
 };
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
-export const loginUser = async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        
-        // Find the user either by username or email
-        const user = await User.findOne({ $or: [{ username }, { email: username }] });
-        if (!user) {
-            return res.status(404).json({ error: 'User not found' });
-        }
-        
-        // Check if the provided password matches the hashed password in the database
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ error: 'Invalid credentials' });
-        }
-        
-        // Generate a JWT token
-        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '1d' });
-
-        // Send the token to the client
-        res.json({ token });
-    } catch (err) {
-        res.status(500).json({ error: 'Internal Server Error', details: err.toString() });
-    }
+export const loginUser = async (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/login',
+        failureFlash: true // optional, requires flash middleware
+      })(req, res, next);
 };
