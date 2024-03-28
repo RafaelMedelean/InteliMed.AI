@@ -20,7 +20,7 @@ const App: React.FC = () => {
   const onFinish = async (values: loginValues) => {
     try {
       console.log("Received values of form: ", values);
-      const response = await fetch("http://localhost:8001/login", {
+      const response = await fetch("http://localhost:8001/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
