@@ -5,14 +5,15 @@ import connectDB from './src/config/db.js';
 import userRoutes from './src/routes/userRoutes.js';
 import passport from 'passport';
 import session from 'express-session';
+import initializePassport from './src/config/passportConfig.js';
 const app = express();
 const PORT = process.env.PORT || 8001;
-
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+initializePassport(passport);
 // Passport middleware
 app.use(
     session({

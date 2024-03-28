@@ -1,15 +1,21 @@
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
-const User = require('../models/user'); // Adjust the path as per your project structure
 
-module.exports = function(passport) {
+import bcrypt from 'bcryptjs';
+import { Strategy as LocalStrategy } from 'passport-local';
+import User from '../models/user.js';
+import passport from 'passport';
+
+export default function initializePassport(passport) {
     passport.use(
-        new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-            // Match user
+        new LocalStrategy({ usernameField: 'login' }, async (login, password, done) => {
+            // Match user by email or username
             try {
-                const user = await User.findOne({ email: email });
+                // Determine if 'login' is an email or a username
+                const isEmail = login.includes('@');
+                const query = isEmail ? { email: login } : { username: login };
+
+                const user = await User.findOne(query);
                 if (!user) {
-                    return done(null, false, { message: 'That email is not registered' });
+                    return done(null, false, { message: 'No user found with that email or username' });
                 }
 
                 // Match password
@@ -34,4 +40,4 @@ module.exports = function(passport) {
             done(err, user);
         });
     });
-};
+}

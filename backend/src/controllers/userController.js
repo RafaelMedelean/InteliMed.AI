@@ -3,6 +3,7 @@ import User from '../models/user.js'
 import bcrypt from 'bcryptjs';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
+import '../config/passportConfig.js';
 // This is your controller function for handling sign-ups.
 export const signupUser = async (req, res) => {
     try {
@@ -46,9 +47,16 @@ export const signupUser = async (req, res) => {
 
 
 export const loginUser = async (req, res, next) => {
-    passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login',
-        failureFlash: true // optional, requires flash middleware
-      })(req, res, next);
+        passport.authenticate('local', (err, user, info) => {
+          if (err) return next(err);
+          if (!user) {
+            return res.status(400).json({ message: info.message });
+          }
+          req.logIn(user, (err) => {
+            if (err) return next(err);
+            return res.status(200).json({ message: 'Logged in successfully' });
+          });
+        })(req, res, next);
+    
+      
 };
