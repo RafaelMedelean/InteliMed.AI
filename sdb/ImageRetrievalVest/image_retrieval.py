@@ -127,6 +127,6 @@ def select_random_path(path_to_csv="/sdb/ImageRetrievalVest/csvs/all_patches_bal
     return df.iloc[index]['numpy_filename']
     
 # return_new_path("1.3.6.1.4.1.14519.5.2.1.6279.6001.100621383016233746780170740405_227.04500000000002_142.18987854_215.75640800000002.npy","/sdb/ImageRetrievalVest/test_files/")
-select_random_path()
+print(select_random_path())
 # Assuming data_loader is defined elsewhere and properly loaded
 #feature_extractor.save_features_to_csv(data_loader, '/sdb/ImageRetrievalVest/saving_features/saving_features_balanced_candidates.csv')

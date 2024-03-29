@@ -33,7 +33,7 @@ def ai(image: str | None = None):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         feature_extractor = FeatureExtractor(
             model_depth=169,
-            pretrained_weights_path='/sdb/ImageRetrievalVest/saving_models/Densenet169_bigger_smaller_first_training_Loss(0.8,2)_optim(0.0001,0.001)_StepLR(50,0.8)/best_model_f1=0.884437596302003_epoch=44.pth',
+            pretrained_weights_path='InteliMed.AI\sdb\ImageRetrievalVest\saving_models\Densenet169_bigger_smaller_first_training_Loss(0.8,2)_optim(0.0001,0.001)_StepLR(50,0.8)\best_model_f1=0.884437596302003_epoch=44.pth',
             device=device
         )
         
