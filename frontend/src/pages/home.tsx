@@ -1,28 +1,42 @@
-import React, { useEffect } from "react"; // Import useEffect
+import React, { useEffect, useState } from "react";
 import Menu from "../components/menu";
-import { useAuth } from "../components/auth";
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
-  // console.log("Home page");
-  const { isAuthenticated, isLoading } = useAuth(); // Assume isLoading is part of your auth context
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-   console.log(localStorage.getItem("token"));
+
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, isLoading, navigate]);
+    fetch("http://localhost:8001/api/users/current", {
+      method: "POST",
+      credentials: "include", // Necessary for sessions/cookies to be sent
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Not authenticated mere");
+      })
+      .then((data) => {
+        if (!data.user) {
+          throw new Error("Not authenticatedpere");
+        }
+        setIsLoading(false); // User is authenticated
+      })
+      .catch((error) => {
+        console.error("Authentication check failed:", error);
+        //navigate("/login");
+      });
+  }, [navigate]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Show a loading state while authentication status is being resolved
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
       <Menu />
       <h1>Welcome to the Home page!</h1>
-      {/* Additional content */}
     </div>
   );
 };

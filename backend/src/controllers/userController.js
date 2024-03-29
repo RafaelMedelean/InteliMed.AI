@@ -47,7 +47,7 @@ export const signupUser = async (req, res) => {
 
 
 export const loginUser = async (req, res, next) => {
- // console.log(req.body)
+  console.log('logging in');
         passport.authenticate('local', (err, user, info) => {
           if (err) return next(err);
           if (!user) {
@@ -57,6 +57,30 @@ export const loginUser = async (req, res, next) => {
             if (err) return next(err);
             return res.status(200).json({ message: 'Logged in successfully' });
           });
+
         })(req, res, next);
-    
+  // console.log(req.isAuthenticated());
+        
 };
+export const logoutUser = async (req, res) => {
+  console.log('logging out');
+  req.logout(function(err) {
+      if (err) { return next(err); }
+      console.log('logged out');
+      res.status(200).json({ message: 'Logged out successfully' });
+  });
+}
+export const currentUser = async (req, res) => {
+  // console.log("aici s-a ajuns");
+  // console.log("ZI");
+  // console.log(req.isAuthenticated());
+  if (req.isAuthenticated()) {
+    // User is authenticated, send back user details
+    res.status(401).json({ user: req.user });
+   // console.log('Da');
+  } else {
+    res.json({ user: req.user });
+    // User is not authenticateda
+    //console.log('Sex');
+  }
+}

@@ -17,17 +17,41 @@ const pages: Page[] = [
   { title: "ThreeImage", path: "/threeimage" },
   { title: "TwoImage", path: "/twoimage" },
 ];
+const handleLogout = () => {
+  fetch("http://localhost:8001/api/users/logout", {
+    method: "POST",
+    credentials: "include", // Necessary for cookies to be sent
+  })
+    .then((response) => {
+      if (response.ok) {
+        // Handle successful logout, e.g., redirecting to login page
+        console.log("Logout successful");
+      }
+    })
+    .catch((error) => console.error("Error logging out:", error));
+};
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = [
+  "Profile",
+  "Account",
+  "Dashboard",
+  { title: "Logout", action: handleLogout },
+];
 
 const AppMenu: React.FC = () => {
-  const menuItems: MenuProps["items"] = settings.map((setting) => ({
-    key: setting,
-    label: setting,
-  }));
-
-  const userMenu = <Menu items={menuItems} />;
-
+  const userMenu = (
+    <Menu
+      items={settings.map((setting) =>
+        typeof setting === "string"
+          ? { key: setting, label: setting }
+          : {
+              key: setting.title,
+              label: setting.title,
+              onClick: setting.action,
+            }
+      )}
+    />
+  );
   const navMenuItems: MenuProps["items"] = pages.map((page) => ({
     key: page.title,
     label: <Link to={page.path}>{page.title}</Link>,

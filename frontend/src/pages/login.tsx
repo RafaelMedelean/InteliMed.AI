@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../components/auth";
+//import { useAuth } from "../components/auth";
 import "./css/login.css"; // Ensure you have an App.css file for custom styles
 import logoImage from "../assets/image.png"; // Adjust the path as necessary
 import photo from "../assets/InteliMed.AI.png"; // Adjust the path as necessary
@@ -16,11 +16,11 @@ interface loginValues {
 const App: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
-  const auth= useAuth();
+ // const auth= useAuth();
   const onFinish = async (values: loginValues) => {
     try {
       console.log("Received values of form: ", values);
-      
+
       const response = await fetch("http://localhost:8001/api/users/login", {
         method: "POST",
         headers: {
@@ -30,12 +30,11 @@ const App: React.FC = () => {
       });
 
       const data = await response.json(); // Parse the JSON response body
-
       if (response.ok) {
-        auth.login(data.token);
-        localStorage.setItem("token", data.token); // Store the token in localStorage
-        //console.log("Login successful");
 
+        //console.log("Login successful");
+        //console.log("data",data); 
+      console.log("data",data);
         navigate("/threeimage"); 
         console.log("Navigated to home page");
       } else {

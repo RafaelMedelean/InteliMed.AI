@@ -8,8 +8,13 @@ import session from 'express-session';
 import initializePassport from './src/config/passportConfig.js';
 const app = express();
 const PORT = process.env.PORT || 8001;
-
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:5174', // or your frontend origin
+    credentials: true, // to allow cookies
+  };
+  
+  app.use(cors(corsOptions));
+  
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -19,6 +24,9 @@ app.use(
         secret: 'secret', // Choose a secret for your session
         resave: true,
         saveUninitialized: true,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24, // 24 hours
+        },
     })
     );
     app.use(passport.initialize());
