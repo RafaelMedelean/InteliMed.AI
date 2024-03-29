@@ -47,6 +47,7 @@ export const signupUser = async (req, res) => {
 
 
 export const loginUser = async (req, res, next) => {
+ // console.log(req.body)
         passport.authenticate('local', (err, user, info) => {
           if (err) return next(err);
           if (!user) {
@@ -58,5 +59,4 @@ export const loginUser = async (req, res, next) => {
           });
         })(req, res, next);
     
-      
 };

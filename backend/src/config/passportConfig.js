@@ -5,13 +5,15 @@ import User from '../models/user.js';
 import passport from 'passport';
 
 export default function initializePassport(passport) {
+    console.log('passport initialized');
     passport.use(
-        new LocalStrategy({ usernameField: 'login' }, async (login, password, done) => {
+        new LocalStrategy({ usernameField: 'username' }, async (username, password, done) => {
             // Match user by email or username
             try {
-                // Determine if 'login' is an email or a username
-                const isEmail = login.includes('@');
-                const query = isEmail ? { email: login } : { username: login };
+                // Determine if 'username' is an email or a username
+              //  console.log(username);
+                const isEmail = username.includes('@');
+                const query = isEmail ? { email: username } : { username: username };
 
                 const user = await User.findOne(query);
                 if (!user) {

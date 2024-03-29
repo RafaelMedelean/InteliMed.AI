@@ -13,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-initializePassport(passport);
 // Passport middleware
 app.use(
     session({
@@ -21,10 +20,11 @@ app.use(
         resave: true,
         saveUninitialized: true,
     })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
+    );
+    app.use(passport.initialize());
+    app.use(passport.session());
+    initializePassport(passport);
+    
 
 app.use('/public', express.static('public'));
 

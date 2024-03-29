@@ -60,7 +60,7 @@ const Signup: React.FC = () => {
   const sendSignUpData = async (formData: SignupValues) => {
     try {
       console.log("formData", formData);
-      const response = await fetch("http://localhost:8001/signup", {
+      const response = await fetch("http://localhost:8001/api/users/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
