@@ -15,17 +15,17 @@ const Home: React.FC = () => {
         if (response.ok) {
           return response.json();
         }
-        throw new Error("Not authenticated mere");
+        throw new Error("Not authenticated on Home page");
       })
       .then((data) => {
         if (!data.user) {
-          throw new Error("Not authenticatedpere");
+          throw new Error("Not authenticated");
         }
         setIsLoading(false); // User is authenticated
       })
       .catch((error) => {
         console.error("Authentication check failed:", error);
-        //navigate("/login");
+        navigate("/login");
       });
   }, [navigate]);
 

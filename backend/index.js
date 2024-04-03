@@ -9,7 +9,7 @@ import initializePassport from './src/config/passportConfig.js';
 const app = express();
 const PORT = process.env.PORT || 8001;
 const corsOptions = {
-    origin: 'http://localhost:5174', // or your frontend origin
+    origin: 'http://localhost:5173', // or your frontend origin
     credentials: true, // to allow cookies
   };
   
@@ -21,16 +21,19 @@ app.use(express.urlencoded({ extended: true }));
 // Passport middleware
 app.use(
     session({
-        secret: 'secret', // Choose a secret for your session
-        resave: true,
-        saveUninitialized: true,
+        secret: 'secret',  // Alegeți un secret real pentru producție
+        resave: false,  // De obicei setat la false pentru magazine de sesiuni bazate pe store
+        saveUninitialized: false,  // Nu salvați sesiuni neinițializate
         cookie: {
-            maxAge: 1000 * 60 * 60 * 24, // 24 hours
+            httpOnly: true,  // Îmbunătățiți securitatea prin setarea cookie-urilor ca HttpOnly
+            secure: false,  // Setat la true dacă sunteți în HTTPS
+            maxAge: 1000 * 60 * 60 * 24,  // Expiră după 24 de ore
         },
     })
     );
     app.use(passport.initialize());
     app.use(passport.session());
+
     initializePassport(passport);
     
 

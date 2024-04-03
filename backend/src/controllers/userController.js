@@ -48,39 +48,34 @@ export const signupUser = async (req, res) => {
 
 export const loginUser = async (req, res, next) => {
   console.log('logging in');
-        passport.authenticate('local', (err, user, info) => {
-          if (err) return next(err);
-          if (!user) {
-            return res.status(400).json({ message: info.message });
-          }
-          req.logIn(user, (err) => {
-            if (err) return next(err);
-            return res.status(200).json({ message: 'Logged in successfully' });
-          });
-
-        })(req, res, next);
-  // console.log(req.isAuthenticated());
-        
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.status(400).json({ message: info.message });
+    }
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.status(200).json({ message: 'Logged in successfully' });
+    });
+  })(req, res, next);
 };
+
 export const logoutUser = async (req, res) => {
   console.log('logging out');
   req.logout(function(err) {
       if (err) { return next(err); }
-      console.log('logged out');
       res.status(200).json({ message: 'Logged out successfully' });
   });
 }
 export const currentUser = async (req, res) => {
-  // console.log("aici s-a ajuns");
-  // console.log("ZI");
-  // console.log(req.isAuthenticated());
+  console.log("Current user: " + req.isAuthenticated());
   if (req.isAuthenticated()) {
-    // User is authenticated, send back user details
-    res.status(401).json({ user: req.user });
-   // console.log('Da');
+      // User is authenticated, send back user details
+      // Exclude sensitive information if necessary
+      const { password, ...userWithoutPassword } = req.user.toObject();
+      res.status(200).json({ user: userWithoutPassword });
   } else {
-    res.json({ user: req.user });
-    // User is not authenticateda
-    //console.log('Sex');
+      // User is not authenticated
+      res.status(401).json({ message: 'User is not authenticated' });
   }
 }

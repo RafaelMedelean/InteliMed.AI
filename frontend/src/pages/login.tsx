@@ -16,13 +16,14 @@ interface loginValues {
 const App: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
- // const auth= useAuth();
+  // const auth= useAuth();
   const onFinish = async (values: loginValues) => {
     try {
       console.log("Received values of form: ", values);
 
       const response = await fetch("http://localhost:8001/api/users/login", {
         method: "POST",
+        credentials: "include", // Necessary for sessions/cookies to be sent
         headers: {
           "Content-Type": "application/json",
         },
@@ -31,11 +32,10 @@ const App: React.FC = () => {
 
       const data = await response.json(); // Parse the JSON response body
       if (response.ok) {
-
         //console.log("Login successful");
-        //console.log("data",data); 
-      console.log("data",data);
-        navigate("/threeimage"); 
+        //console.log("data",data);
+        console.log("data", data);
+        navigate("/threeimage");
         console.log("Navigated to home page");
       } else {
         console.error("Login failed:", data.error); // Log the error from the response

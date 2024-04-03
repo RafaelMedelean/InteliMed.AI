@@ -10,8 +10,9 @@ export default function initializePassport(passport) {
         new LocalStrategy({ usernameField: 'username' }, async (username, password, done) => {
             // Match user by email or username
             try {
-                // Determine if 'username' is an email or a username
-              //  console.log(username);
+                     // Determine if 'username' is an email or a username
+                    //  console.log(username);
+                  // console.log('Ana are mere');
                 const isEmail = username.includes('@');
                 const query = isEmail ? { email: username } : { username: username };
 
@@ -23,6 +24,8 @@ export default function initializePassport(passport) {
                 // Match password
                 const isMatch = await bcrypt.compare(password, user.password);
                 if (isMatch) {
+                  //console.log('password matched'+user);  
+                //   console.log(req.isAuthenticated());
                     return done(null, user);
                 } else {
                     return done(null, false, { message: 'Password incorrect' });
@@ -30,6 +33,7 @@ export default function initializePassport(passport) {
             } catch (err) {
                 console.log(err);
             }
+            
         })
     );
 
@@ -37,9 +41,15 @@ export default function initializePassport(passport) {
         done(null, user.id);
     });
 
-    passport.deserializeUser((id, done) => {
-        User.findById(id, (err, user) => {
-            done(err, user);
-        });
+    passport.deserializeUser(async (id, done) => {
+        try {
+            const user = await User.findById(id);
+            done(null, user);
+        } catch (err) {
+            done(err);
+        }
     });
+    
+    
+
 }
