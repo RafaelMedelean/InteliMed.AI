@@ -2,3 +2,14 @@ sdb/ImageRetrievalVest/test_files
 backend/node_modules
 backend/public
 frontend/node_modules
+sdb/ImageRetrievalVest/test_files
+sdb/ImageRetrievalVest/tensorboard
+sdb/ImageRetrievalVest/saving_models/Densenet169_bigger_smaller_csv_test
+sdb/ImageRetrievalVest/saving_models/Densenet169_smaller_csv
+sdb/ImageRetrievalVest/saving_models/saving_models/Densenet169_bigger_smaller_first
+sdb/ImageRetrievalVest/saving_models/Densenet169_bigger_smaller_first_training_Loss(0.8,2)_optim(0.0001,0.001)_StepLR(50,0.8)
+sdb/ImageRetrievalVest/saving_models/Densenet169_bigger_smaller_first_training_Loss(0.8,2)_optim(0.0001,0.001)_StepLR(50,0.8)/best_model_f1=0.88_epoch=41.pth
+sdb/ImageRetrievalVest/saving_models/Densenet169_bigger_smaller_first_training_Loss(0.8,2)_optim(0.0001,0.001)_StepLR(50,0.8)/best_model_f1=0.8684210526315789_epoch=32.pth
+sdb/ImageRetrievalVest/saving_models/Densenet169_bigger_smaller_first_training_Loss(0.8,2)_optim(0.0001,0.001)_StepLR(50,0.8)/best_model_f1=0.8703703703703703_epoch=33.pth
+sdb/ImageRetrievalVest/saving_models/Densenet169_bigger_smaller_first_training_Loss(0.8,2)_optim(0.0001,0.001)_StepLR(50,0.8)/best_model_f1=0.8734082397003746_epoch=38.pth
+sdb/ImageRetrievalVest/saving_models/Densenet169_bigger_smaller_first_training_Loss(0.8,2)_optim(0.0001,0.001)_StepLR(50,0.8)/best_model_f1=0.8807896735003796_epoch=43.pth

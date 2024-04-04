@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Card, Button, Result } from "antd";
+import { Layout, Card, Button } from "antd";
 import AppMenu from "../components/menu";
 const { Header, Content, Footer } = Layout;
 import IconSlider from "../components/IconSlider"; // Ensure this is the correct path
 import "./css/threeimage.css"; // Importing external CSS
-import { useAuth } from "../components/auth";
 import { useNavigate } from "react-router-dom";
 
 // const getData = async () => {
@@ -71,7 +70,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-
+    console.log(loading);
     Promise.all([
       getData(null),
       // fetchImages()
