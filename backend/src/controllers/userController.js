@@ -7,7 +7,7 @@ import '../config/passportConfig.js';
 // This is your controller function for handling sign-ups.
 export const signupUser = async (req, res) => {
     try {
-        const { username, password, email, phone, donation, gender, intro, medic, university } = req.body;
+        const { username, password, email, gender, medic, university } = req.body;
         // Basic validation for required fields
         if (!(username && password && email)) {
             return res.status(400).json({ error: 'Username, password, and email are required' });
@@ -25,10 +25,7 @@ export const signupUser = async (req, res) => {
             username,
             password: hashedPassword,
             email,
-            phoneNumber: phone,
-            donation,
             gender,
-            intro,
             isMedic:medic === true ? true : false,
             university
         });
@@ -66,7 +63,6 @@ export const logoutUser = async (req, res) => {
   });
 }
 export const currentUser = async (req, res) => {
-  console.log("Current user: " + req.isAuthenticated());
   if (req.isAuthenticated()) {
       // User is authenticated, send back user details
       // Exclude sensitive information if necessary

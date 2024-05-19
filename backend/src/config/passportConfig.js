@@ -11,8 +11,6 @@ export default function initializePassport(passport) {
             // Match user by email or username
             try {
                      // Determine if 'username' is an email or a username
-                    //  console.log(username);
-                  // console.log('Ana are mere');
                 const isEmail = username.includes('@');
                 const query = isEmail ? { email: username } : { username: username };
 
